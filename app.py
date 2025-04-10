@@ -27,7 +27,29 @@ st.markdown("""
         background-color: #000;
         position: relative;
         overflow: hidden;
-        color: white !important;
+        z-index: 0;
+    }
+
+    .stApp::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-image:
+            radial-gradient(white 1px, transparent 1px),
+            radial-gradient(white 1px, transparent 1px);
+        background-size: 60px 60px;
+        background-position: 0 0, 30px 30px;
+        animation: stars 20s linear infinite;
+        opacity: 0.4;
+    }
+
+    @keyframes stars {
+        0% { background-position: 0 0, 30px 30px; }
+        100% { background-position: 60px 60px, 90px 90px; }
     }
 
     .title {
@@ -36,6 +58,8 @@ st.markdown("""
         color: #4CAF50;
         font-weight: bold;
         animation: glow 2s infinite alternate;
+        z-index: 10;
+        position: relative;
     }
 
     @keyframes glow {
@@ -47,37 +71,14 @@ st.markdown("""
         }
     }
 
-    .stApp::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: transparent;
-        z-index: -1;
-        background-image:
-            radial-gradient(white 1px, transparent 1px),
-            radial-gradient(white 1px, transparent 1px);
-        background-size: 60px 60px;
-        background-position: 0 0, 30px 30px;
-        animation: stars 10s linear infinite;
-        opacity: 0.6;
-    }
-
-    @keyframes stars {
-        0% { background-position: 0 0, 30px 30px; }
-        100% { background-position: 60px 60px, 90px 90px; }
-    }
-
-    /* Asegurar que los inputs y cajas se vean bien */
+    /* Asegura que los elementos de entrada se vean bien sobre el fondo oscuro */
     .stTextInput>div>div>input,
     .stTextArea textarea,
     .stFileUploader,
     .stButton button,
     .stToggle {
         color: white !important;
-        background-color: rgba(255,255,255,0.1) !important;
+        background-color: rgba(255,255,255,0.08) !important;
         border: 1px solid #4CAF50 !important;
     }
 
@@ -88,6 +89,7 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
+
 
 # -------------------- TÍTULO Y ANIMACIÓN --------------------
 st.markdown('<div class="title">Análisis de Imagen 🤖🏞️</div>', unsafe_allow_html=True)
