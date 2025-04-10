@@ -86,28 +86,33 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # -------------------- REPRODUCTOR DE YOUTUBE --------------------
-col1, col2 = st.columns([1, 2])
-
-with col1:
-    st.markdown("""
+st.markdown("""
+    <div style="
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    ">
         <div style="
             background-color: #1E3A8A;
             padding: 20px;
-            border-radius: 16px;
+            border-radius: 12px;
             color: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            font-family: 'Segoe UI', sans-serif;
-            margin-top: 20px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 500;
+            width: 500px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         ">
-            <h4 style="color: #93C5FD; margin-top: 0;">🎶 Reproductor de YouTube</h4>
-            <p style="font-size: 14px;">Pega aquí el enlace de tu video o música favorita mientras se analiza la imagen.</p>
+            🎶 <strong>Reproductor de YouTube</strong><br><br>
+            Pega el enlace de tu video o música favorita mientras se analiza la imagen.
         </div>
-    """, unsafe_allow_html=True)
+    </div>
+""", unsafe_allow_html=True)
 
-    yt_url = st.text_input("🎥 Enlace de YouTube", placeholder="https://www.youtube.com/watch?v=...")
+yt_url = st.text_input("🎥 Enlace de YouTube", placeholder="https://www.youtube.com/watch?v=...")
 
-    if yt_url:
-        st.video(yt_url)
+if yt_url:
+    st.video(yt_url)
 
 
 # -------------------- INGRESO API --------------------
