@@ -1,132 +1,117 @@
 import os
 import streamlit as st
 import base64
+import json
 from openai import OpenAI
+from streamlit_lottie import st_lottie
 
-# ---------- CONFIGURACIÓN DE LA PÁGINA ----------
+# -------------------- CONFIGURACIÓN DE LA PÁGINA --------------------
 st.set_page_config(
-    page_title="Análisis de Imagen ✨",
+    page_title="Análisis de Imagen 🤖🏞️",
     layout="centered",
     initial_sidebar_state="collapsed"
 )
 
-# ---------- ESTILOS PERSONALIZADOS ----------
+# -------------------- FUNCIONES --------------------
+def encode_image(image_file):
+    return base64.b64encode(image_file.getvalue()).decode("utf-8")
+
+def load_lottie_file(filepath):
+    with open(filepath, "r") as f:
+        return json.load(f)
+
+# -------------------- ESTILOS PERSONALIZADOS --------------------
 st.markdown("""
     <style>
-    body {
-        background-color: #0d0d1a;
-    }
-
-    .main {
-        color: #f2f2f2;
-        font-family: 'Segoe UI', sans-serif;
-    }
-
     .title {
-        font-size: 48px;
-        font-weight: bold;
-        color: #ffcc00;
         text-align: center;
-        margin-top: 20px;
-        animation: glow 2s ease-in-out infinite alternate;
-        text-shadow: 2px 2px 10px #ffcc00;
+        font-size: 40px;
+        color: #4CAF50;
+        font-weight: bold;
+        animation: glow 2s infinite alternate;
     }
 
     @keyframes glow {
         from {
-            text-shadow: 0 0 10px #ffcc00;
+            text-shadow: 0 0 10px #4CAF50;
         }
         to {
-            text-shadow: 0 0 20px #ffaa00;
+            text-shadow: 0 0 20px #81C784;
         }
     }
 
     .music-button {
         position: fixed;
-        bottom: 20px;
-        left: 20px;
-        background-color: #ffcc00;
-        border: none;
-        padding: 12px 18px;
-        font-size: 16px;
-        font-weight: bold;
-        border-radius: 50px;
-        cursor: pointer;
-        color: #000;
-        z-index: 9999;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
-
-    .music-button:hover {
-        background-color: #ffaa00;
+        bottom: 30px;
+        right: 30px;
+        background-color: #f50057;
         color: white;
-    }
-
-    .custom-box {
-        background-color: #1e1e2f;
-        padding: 20px;
-        border-radius: 10px;
-        border: 1px solid #ffcc00;
-        margin-top: 20px;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        font-size: 30px;
+        text-align: center;
+        line-height: 60px;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+        cursor: pointer;
+        z-index: 9999;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# ---------- BOTÓN FLOTANTE PARA MÚSICA ----------
-st.markdown("""
-    <button class="music-button" onclick="document.getElementById('player').play()">🎵 Música</button>
-    <audio id="player" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-""", unsafe_allow_html=True)
-
-# ---------- TÍTULO CON ANIMACIÓN ----------
+# -------------------- TÍTULO Y ANIMACIÓN --------------------
 st.markdown('<div class="title">Análisis de Imagen 🤖🏞️</div>', unsafe_allow_html=True)
+lottie_animation = load_lottie_file("robot.json")
+st_lottie(lottie_animation, height=250, key="lottie")
 
-# ---------- API KEY ----------
-ke = st.text_input('🔐 Ingresa tu Clave de OpenAI:', type='password')
+# -------------------- INGRESO API --------------------
+ke = st.text_input('🔑 Ingresa tu Clave de OpenAI', type="password")
 if ke:
     os.environ['OPENAI_API_KEY'] = ke
+    api_key = os.environ['OPENAI_API_KEY']
+else:
+    st.warning("Por favor ingresa tu clave de API de OpenAI.")
+    api_key = None
 
-api_key = os.environ.get('OPENAI_API_KEY')
-client = OpenAI(api_key=api_key) if api_key else None
+# -------------------- SUBIDA DE IMAGEN --------------------
+uploaded_file = st.file_uploader("📤 Sube una imagen (JPG, PNG o JPEG)", type=["jpg", "png", "jpeg"])
 
-# ---------- SUBIR IMAGEN ----------
-uploaded_file = st.file_uploader("📁 Sube una imagen", type=["jpg", "png", "jpeg"])
 if uploaded_file:
-    with st.expander("📸 Imagen subida", expanded=True):
+    with st.expander("📸 Vista previa de la imagen", expanded=True):
         st.image(uploaded_file, caption=uploaded_file.name, use_container_width=True)
 
-# ---------- DETALLES ADICIONALES ----------
-show_details = st.toggle("📝 ¿Deseas añadir contexto sobre la imagen?")
+# -------------------- DETALLES ADICIONALES --------------------
+show_details = st.toggle("📝 ¿Quieres agregar detalles adicionales?", value=False)
 if show_details:
-    additional_details = st.text_area("✍️ Describe el contexto de la imagen aquí:")
+    additional_details = st.text_area("✍️ Escribe aquí tu contexto:", disabled=not show_details)
+else:
+    additional_details = ""
 
-# ---------- BOTÓN DE ANÁLISIS ----------
-analyze_button = st.button("🔍 Analizar imagen")
+# -------------------- ANÁLISIS DE IMAGEN --------------------
+analyze_button = st.button("🔍 Analizar Imagen")
 
-# ---------- FUNCIÓN DE ENCODE ----------
-def encode_image(image_file):
-    return base64.b64encode(image_file.getvalue()).decode("utf-8")
-
-# ---------- PROCESAMIENTO ----------
-if uploaded_file and api_key and analyze_button:
+if uploaded_file is not None and api_key and analyze_button:
+    client = OpenAI(api_key=api_key)
     with st.spinner("🧠 Analizando la imagen..."):
         try:
             base64_image = encode_image(uploaded_file)
 
             prompt_text = "Describe lo que ves en la imagen en español."
-            if show_details and additional_details:
-                prompt_text += f"\n\nContexto adicional: {additional_details}"
+            if additional_details:
+                prompt_text += f"\n\nDetalles adicionales del usuario:\n{additional_details}"
 
-            messages = [{
-                "role": "user",
-                "content": [
-                    {"type": "text", "text": prompt_text},
-                    {
-                        "type": "image_url",
-                        "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}
-                    },
-                ],
-            }]
+            messages = [
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": prompt_text},
+                        {
+                            "type": "image_url",
+                            "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}
+                        },
+                    ],
+                }
+            ]
 
             full_response = ""
             message_placeholder = st.empty()
@@ -138,15 +123,14 @@ if uploaded_file and api_key and analyze_button:
             ):
                 if completion.choices[0].delta.content is not None:
                     full_response += completion.choices[0].delta.content
-                    message_placeholder.markdown(f'<div class="custom-box">{full_response}▌</div>', unsafe_allow_html=True)
-            message_placeholder.markdown(f'<div class="custom-box">{full_response}</div>', unsafe_allow_html=True)
+                    message_placeholder.markdown("🗣️ " + full_response + "▌")
+
+            message_placeholder.markdown("🗣️ " + full_response)
 
         except Exception as e:
-            st.error(f"❌ Error durante el análisis: {e}")
+            st.error(f"❌ Ocurrió un error: {e}")
 
-elif analyze_button:
-    if not uploaded_file:
-        st.warning("📌 Por favor sube una imagen.")
-    if not api_key:
-        st.warning("🔐 No se ha ingresado la clave de API.")
+elif analyze_button and not uploaded_file:
+    st.warning("🚨 Por favor, sube una imagen antes de analizar.")
+
 
