@@ -69,7 +69,7 @@ st_lottie(lottie_animation, height=450, key="lottie")
 # -------------------- MENSAJE INFORMATIVO --------------------
 st.markdown("""
     <div style="
-        background-color: #2196F3;
+        background-color: #A020F0;
         padding: 20px;
         border-radius: 12px;
         color: white;
