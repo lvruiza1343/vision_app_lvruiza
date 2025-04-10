@@ -62,7 +62,7 @@ st.markdown("""
 # -------------------- TÍTULO Y ANIMACIÓN --------------------
 st.markdown('<div class="title">Análisis de Imagen 🤖🏞️</div>', unsafe_allow_html=True)
 lottie_animation = load_lottie_file("robot.json")
-st_lottie(lottie_animation, height=250, key="lottie")
+st_lottie(lottie_animation, height=450, key="lottie")
 
 # -------------------- INGRESO API --------------------
 ke = st.text_input('🔑 Ingresa tu Clave de OpenAI', type="password")
