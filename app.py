@@ -20,6 +20,25 @@ def load_lottie_file(filepath):
     with open(filepath, "r") as f:
         return json.load(f)
 
+# -------------------- MENSAJE INFORMATIVO --------------------
+st.markdown("""
+    <div style="
+        background-color: #2196F3;
+        padding: 20px;
+        border-radius: 12px;
+        color: white;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 500;
+        margin-top: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        z-index: 1;
+        position: relative;
+    ">
+        📤 Agrega una imagen y este sistema inteligente analizará y describirá lo que contiene. ¡Pruébalo!
+    </div>
+""", unsafe_allow_html=True)
+
 # -------------------- ESTILOS PERSONALIZADOS --------------------
 st.markdown("""
     <style>
