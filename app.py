@@ -23,6 +23,17 @@ def load_lottie_file(filepath):
 # -------------------- ESTILOS PERSONALIZADOS --------------------
 st.markdown("""
     <style>
+    body {
+        background-color: black;
+        color: white;
+    }
+
+    .stApp {
+        background: black;
+        position: relative;
+        overflow: hidden;
+    }
+
     .title {
         text-align: center;
         font-size: 40px;
@@ -40,22 +51,29 @@ st.markdown("""
         }
     }
 
-    .music-button {
+    /* FONDO ESTRELLADO */
+    .stApp::before {
+        content: '';
         position: fixed;
-        bottom: 30px;
-        right: 30px;
-        background-color: #f50057;
-        color: white;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        font-size: 30px;
-        text-align: center;
-        line-height: 60px;
-        box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
-        cursor: pointer;
-        z-index: 9999;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        z-index: -1;
+        background-image:
+            radial-gradient(white 1px, transparent 1px),
+            radial-gradient(white 1px, transparent 1px);
+        background-size: 60px 60px;
+        background-position: 0 0, 30px 30px;
+        animation: stars 10s linear infinite;
     }
+
+    @keyframes stars {
+        0% { background-position: 0 0, 30px 30px; }
+        100% { background-position: 60px 60px, 90px 90px; }
+    }
+
     </style>
 """, unsafe_allow_html=True)
 
@@ -132,5 +150,3 @@ if uploaded_file is not None and api_key and analyze_button:
 
 elif analyze_button and not uploaded_file:
     st.warning("🚨 Por favor, sube una imagen antes de analizar.")
-
-
