@@ -23,15 +23,11 @@ def load_lottie_file(filepath):
 # -------------------- ESTILOS PERSONALIZADOS --------------------
 st.markdown("""
     <style>
-    body {
-        background-color: black;
-        color: white;
-    }
-
     .stApp {
-        background: black;
+        background-color: #000;
         position: relative;
         overflow: hidden;
+        color: white !important;
     }
 
     .title {
@@ -51,7 +47,6 @@ st.markdown("""
         }
     }
 
-    /* FONDO ESTRELLADO */
     .stApp::before {
         content: '';
         position: fixed;
@@ -67,6 +62,7 @@ st.markdown("""
         background-size: 60px 60px;
         background-position: 0 0, 30px 30px;
         animation: stars 10s linear infinite;
+        opacity: 0.6;
     }
 
     @keyframes stars {
@@ -74,6 +70,22 @@ st.markdown("""
         100% { background-position: 60px 60px, 90px 90px; }
     }
 
+    /* Asegurar que los inputs y cajas se vean bien */
+    .stTextInput>div>div>input,
+    .stTextArea textarea,
+    .stFileUploader,
+    .stButton button,
+    .stToggle {
+        color: white !important;
+        background-color: rgba(255,255,255,0.1) !important;
+        border: 1px solid #4CAF50 !important;
+    }
+
+    .stFileUploader label,
+    .stTextInput label,
+    .stTextArea label {
+        color: white !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
