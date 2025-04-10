@@ -85,6 +85,31 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
+# -------------------- REPRODUCTOR DE YOUTUBE --------------------
+col1, col2 = st.columns([1, 2])
+
+with col1:
+    st.markdown("""
+        <div style="
+            background-color: #1E3A8A;
+            padding: 20px;
+            border-radius: 16px;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            font-family: 'Segoe UI', sans-serif;
+            margin-top: 20px;
+        ">
+            <h4 style="color: #93C5FD; margin-top: 0;">🎶 Reproductor de YouTube</h4>
+            <p style="font-size: 14px;">Pega aquí el enlace de tu video o música favorita mientras se analiza la imagen.</p>
+        </div>
+    """, unsafe_allow_html=True)
+
+    yt_url = st.text_input("🎥 Enlace de YouTube", placeholder="https://www.youtube.com/watch?v=...")
+
+    if yt_url:
+        st.video(yt_url)
+
+
 # -------------------- INGRESO API --------------------
 ke = st.text_input('🔑 Ingresa tu Clave de OpenAI', type="password")
 if ke:
@@ -154,29 +179,6 @@ if uploaded_file is not None and api_key and analyze_button:
 elif analyze_button and not uploaded_file:
     st.warning("🚨 Por favor, sube una imagen antes de analizar.")
 
-# -------------------- REPRODUCTOR DE YOUTUBE --------------------
-with st.container():
-    st.markdown("""
-        <div style="display: flex; justify-content: flex-start; margin-top: 30px;">
-            <div style="
-                background-color: #111827;
-                padding: 20px;
-                border-radius: 16px;
-                color: white;
-                width: 350px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-                font-family: 'Segoe UI', sans-serif;
-            ">
-                <h4 style="color: #60A5FA; margin-top: 0;">🎶 Reproductor de YouTube</h4>
-                <p style="font-size: 14px;">Pega aquí el link de tu canción o video favorito mientras analizas tu imagen.</p>
-            </div>
-        </div>
-    """, unsafe_allow_html=True)
-
-    yt_url = st.text_input("🎥 Enlace de YouTube", placeholder="https://www.youtube.com/watch?v=...")
-
-    if yt_url:
-        st.video(yt_url)
 
 
 
