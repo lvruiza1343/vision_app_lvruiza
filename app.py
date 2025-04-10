@@ -132,3 +132,78 @@ if uploaded_file is not None and api_key and analyze_button:
 
 elif analyze_button and not uploaded_file:
     st.warning("🚨 Por favor, sube una imagen antes de analizar.")
+
+st.markdown("""
+    <style>
+    .stApp {
+        background-color: #000;
+        position: relative;
+        overflow: hidden;
+        z-index: 0;
+    }
+
+    /* Estrellas animadas en el fondo */
+    .stApp::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 200%;
+        height: 200%;
+        background:
+            radial-gradient(white 1px, transparent 1px),
+            radial-gradient(white 1px, transparent 1px);
+        background-size: 100px 100px;
+        background-position: 0 0, 50px 50px;
+        opacity: 0.2;
+        animation: sparkle 60s linear infinite;
+        z-index: -1;
+    }
+
+    @keyframes sparkle {
+        0% {
+            transform: translate(0, 0);
+        }
+        100% {
+            transform: translate(-50px, -50px);
+        }
+    }
+
+    .title {
+        text-align: center;
+        font-size: 40px;
+        color: #4CAF50;
+        font-weight: bold;
+        animation: glow 2s infinite alternate;
+        z-index: 10;
+        position: relative;
+    }
+
+    @keyframes glow {
+        from {
+            text-shadow: 0 0 10px #4CAF50;
+        }
+        to {
+            text-shadow: 0 0 20px #81C784;
+        }
+    }
+
+    /* Inputs adaptados para fondo oscuro */
+    .stTextInput>div>div>input,
+    .stTextArea textarea,
+    .stFileUploader,
+    .stButton button,
+    .stToggle {
+        color: white !important;
+        background-color: rgba(255,255,255,0.08) !important;
+        border: 1px solid #4CAF50 !important;
+    }
+
+    .stFileUploader label,
+    .stTextInput label,
+    .stTextArea label {
+        color: white !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
