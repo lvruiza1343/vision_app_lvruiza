@@ -20,6 +20,44 @@ def load_lottie_file(filepath):
     with open(filepath, "r") as f:
         return json.load(f)
 
+# -------------------- ESTILOS PERSONALIZADOS --------------------
+st.markdown("""
+    <style>
+    .title {
+        text-align: center;
+        font-size: 40px;
+        color: #4CAF50;
+        font-weight: bold;
+        animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+        from {
+            text-shadow: 0 0 10px #4CAF50;
+        }
+        to {
+            text-shadow: 0 0 20px #81C784;
+        }
+    }
+
+    .music-button {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background-color: #f50057;
+        color: white;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        font-size: 30px;
+        text-align: center;
+        line-height: 60px;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+        cursor: pointer;
+        z-index: 9999;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 # -------------------- TÍTULO Y ANIMACIÓN --------------------
 st.markdown('<div class="title">Análisis de Imagen 🤖🏞️</div>', unsafe_allow_html=True)
